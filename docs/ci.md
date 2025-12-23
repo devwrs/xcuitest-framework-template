@@ -12,6 +12,11 @@ xcodebuild \
   test
 ```
 
+## GitHub Actions
+This repo includes a workflow template at `.github/workflows/xcuitest.yml`.
+Update `XCODE_SCHEME`, `XCODE_WORKSPACE` or `XCODE_PROJECT`, and `XCODE_TESTPLAN`
+to match your app.
+
 ## Best Practices
 - Use a dedicated simulator name and OS version.
 - Keep smoke tests deterministic and fast.

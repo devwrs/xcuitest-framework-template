@@ -1,0 +1,74 @@
+# Copyright (c) 2025 Robin Singh
+# SPDX-License-Identifier: MIT
+
+name: XCUITest
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  xcuitest:
+    runs-on: macos-14
+    timeout-minutes: 45
+    env:
+      XCODE_SCHEME: YourApp
+      XCODE_TESTPLAN: Smoke
+      XCODE_WORKSPACE: YourApp.xcworkspace
+      XCODE_PROJECT: ""
+      XCODE_DESTINATION: "platform=iOS Simulator,name=iPhone 15,OS=17.5"
+      RESULT_BUNDLE_PATH: build/xcuitest-results
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Xcode Version
+        run: |
+          xcodebuild -version
+
+      - name: List Simulators
+        run: |
+          xcrun simctl list devices
+
+      - name: Run XCUITests
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${XCODE_WORKSPACE}" ]]; then
+            BUILD_ARGS=( -workspace "${XCODE_WORKSPACE}" )
+          elif [[ -n "${XCODE_PROJECT}" ]]; then
+            BUILD_ARGS=( -project "${XCODE_PROJECT}" )
+          else
+            echo "Set XCODE_WORKSPACE or XCODE_PROJECT."
+            exit 1
+          fi
+
+          if [[ -z "${XCODE_SCHEME}" ]]; then
+            echo "Set XCODE_SCHEME."
+            exit 1
+          fi
+
+          BUILD_ARGS+=( -scheme "${XCODE_SCHEME}" )
+
+          if [[ -n "${XCODE_TESTPLAN}" ]]; then
+            BUILD_ARGS+=( -testPlan "${XCODE_TESTPLAN}" )
+          fi
+
+          mkdir -p "$(dirname "${RESULT_BUNDLE_PATH}")"
+
+          xcodebuild \
+            "${BUILD_ARGS[@]}" \
+            -destination "${XCODE_DESTINATION}" \
+            -resultBundlePath "${RESULT_BUNDLE_PATH}" \
+            test
+
+      - name: Upload xcresult
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcuitest-results
+          path: build/xcuitest-results

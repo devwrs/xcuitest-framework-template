@@ -81,11 +81,13 @@ DEVICE_UDID=<udid> ./scripts/prep_simulator.sh
 ## CI
 - Prefer `xcodebuild` with `-resultBundlePath` for reporting.
 - Use a fixed simulator name and OS version to reduce variance.
+- GitHub Actions workflow template: `.github/workflows/xcuitest.yml`.
 
 ## Documentation
 - `docs/architecture.md`
 - `docs/standards.md`
 - `docs/ci.md`
+- `docs/tutorial.md`
 
 ## License
 This project is open source under the MIT License. See `LICENSE`.

@@ -1,0 +1,13 @@
+# Copyright (c) 2025 Robin Singh
+# SPDX-License-Identifier: MIT
+
+# Xcode
+build/
+DerivedData/
+*.xcresult
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+
+# SwiftPM
+.build/

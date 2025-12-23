@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "Smoke",
+      "name" : "Smoke",
+      "options" : {
+        "testExecutionOrdering" : "sequential"
+      },
+      "testTargets" : [
+        {
+          "target" : {
+            "name" : "AppUITests",
+            "identifier" : "AppUITests"
+          },
+          "selectedTests" : [
+          ],
+          "skippedTests" : [
+          ]
+        }
+      ]
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "sequential"
+  },
+  "version" : 1
+}
